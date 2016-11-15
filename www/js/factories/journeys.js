@@ -15,7 +15,7 @@
       resource.get({}, function (res) {
         callback(res);
       }, function() {
-        callback(null)
+        callback(null);
       });
     };
 
