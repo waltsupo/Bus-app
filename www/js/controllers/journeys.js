@@ -39,21 +39,60 @@
 
       Routes.getRoutes($scope.line, function(data) {
 
+        console.log("loadLine: " + data);
         JourneyPatterns.getPattern(data.body[0].journeyPatterns[0].url, function(patt) {
 
           var stops = patt.body[0].stopPoints;
 
+          var positions = [];
+
           for (var stopI = 0; stopI < stops.length; stopI++) {
 
             var position = stops[stopI].location.split(",");
+            positions.push(new plugin.google.maps.LatLng(position[0], position[1]));
+          }
 
-            $scope.map.addMarker({
-              position: {lat: position[0], lng: position[1]},
-              title: "test marker"
+          $scope.map.addPolyline({
+            points: positions,
+            'color' : '#AA00FF',
+            'width': 10,
+            'geodesic': true
+          });
+
+          for (var stopI = 0; stopI < positions.length; stopI++) {
+
+            $scope.map.addCircle({
+              'center': positions[stopI],
+              'radius': 50,
+              'strokeColor' : '#8fbc8f',
+              'strokeWidth': 5,
+              'fillColor' : '#8fbc8f'
+            });
+          }
+           /* if (stopI == 0)
+              flatlng = latlng;
+
+            $scope.map.addCircle({
+              'center': latlng,
+              'radius': 30,
+              'strokeColor' : '#8fbc8f',
+              'strokeWidth': 5,
+              'fillColor' : '#8fbc8f'
             });
 
-            console.log("marker set");
-          }
+            if (stopI == stops.length - 1) {
+
+              $scope.map.addPolyline({
+                points: [
+                  flatlng,
+                  latlng
+                ],
+                'color' : '#AA00FF',
+                'width': 10,
+                'geodesic': true
+              });
+            }
+          }*/
         });
       });
     };
