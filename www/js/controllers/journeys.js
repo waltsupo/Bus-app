@@ -37,62 +37,67 @@
 
       $scope.map.clear();
 
-      Routes.getRoutes($scope.line, function(data) {
+      Routes.getRoutes($scope.line, function(routes) {
 
-        console.log("loadLine: " + data);
-        JourneyPatterns.getPattern(data.body[0].journeyPatterns[0].url, function(patt) {
+        // Get route with most journeys to display on the map
+        var route = routes.body[0];
 
-          var stops = patt.body[0].stopPoints;
+        for (var index = 1; index < routes.body.length; index++) {
 
-          var positions = [];
+          if (routes.body[index].journeys.length > route.journeys.length) {
 
-          for (var stopI = 0; stopI < stops.length; stopI++) {
+            route = routes.body[index];
+          }
+        }
 
-            var position = stops[stopI].location.split(",");
-            positions.push(new plugin.google.maps.LatLng(position[0], position[1]));
+        // Get stop points and draw those and the line to the map
+        JourneyPatterns.getPattern(route.journeyPatterns[0].url, function(pattern) {
+
+          // Line
+          var lineCoords = [];
+
+          var projectionSTR = route.geographicCoordinateProjection.split(":");
+          var projection = [];
+
+          for (var projInd = 0; projInd < projectionSTR.length; projInd++) {
+            projection.push(projectionSTR[projInd].split(",").map(Number));
           }
 
+          var lat = projection[0][0] / 100000;
+          var lng = projection[0][1] / 100000;
+          lineCoords.push(new plugin.google.maps.LatLng(lat, lng));
+
+          for (var index = 1; index < projection.length; index++) {
+            console.log("hello");
+            lat -= projection[index][0] / 100000;
+            lng -= projection[index][1] / 100000;
+            lineCoords.push(new plugin.google.maps.LatLng(lat, lng));
+          }
+
+          console.log(lineCoords);
+          // Draw line
           $scope.map.addPolyline({
-            points: positions,
-            'color' : '#AA00FF',
+            points: lineCoords,
+            'color' : '#add8e6',
             'width': 10,
             'geodesic': true
           });
 
-          for (var stopI = 0; stopI < positions.length; stopI++) {
+          // Stops
+          var stops = pattern.body[0].stopPoints;
 
+          for (var stopI = 0; stopI < stops.length; stopI++) {
+
+            var position = stops[stopI].location.split(",");
             $scope.map.addCircle({
-              'center': positions[stopI],
+              'center': new plugin.google.maps.LatLng(position[0], position[1]),
               'radius': 50,
-              'strokeColor' : '#8fbc8f',
-              'strokeWidth': 5,
-              'fillColor' : '#8fbc8f'
+              'strokeColor' : '#008000',
+              'strokeWidth': 0,
+              'fillColor' : '#008000',
+              'zIndex' : '5'
             });
           }
-           /* if (stopI == 0)
-              flatlng = latlng;
-
-            $scope.map.addCircle({
-              'center': latlng,
-              'radius': 30,
-              'strokeColor' : '#8fbc8f',
-              'strokeWidth': 5,
-              'fillColor' : '#8fbc8f'
-            });
-
-            if (stopI == stops.length - 1) {
-
-              $scope.map.addPolyline({
-                points: [
-                  flatlng,
-                  latlng
-                ],
-                'color' : '#AA00FF',
-                'width': 10,
-                'geodesic': true
-              });
-            }
-          }*/
         });
       });
     };
