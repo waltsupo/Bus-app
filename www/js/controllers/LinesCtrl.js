@@ -96,7 +96,7 @@
                     $scope.map.addPolyline({
                         points: lineCoords,
                         'color': '#0059b3',
-                        'width': 10,
+                        'width': 5,
                         'geodesic': true
                     });
 
