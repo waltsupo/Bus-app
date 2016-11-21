@@ -2,7 +2,7 @@
 
     var app = angular.module('Bus-app');
 
-    app.factory('Lines', ["$resource", function($resource) {
+    app.factory('Lines', ["$resource", function ($resource) {
 
         var path = "http://data.itsfactory.fi/journeys/api/1/lines";
 
@@ -14,7 +14,7 @@
 
             resource.get({}, function (res) {
                 callback(res);
-            }, function() {
+            }, function () {
                 callback(null);
             });
         };

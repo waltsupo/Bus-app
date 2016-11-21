@@ -1,25 +1,25 @@
 (function () {
 
-  var app = angular.module('Bus-app');
+    var app = angular.module('Bus-app');
 
-  app.factory('JourneyPatterns', ["$resource", function($resource) {
+    app.factory('JourneyPatterns', ["$resource", function ($resource) {
 
-    var path = "http://data.itsfactory.fi/journeys/api/1/routes";
+        var path = "http://data.itsfactory.fi/journeys/api/1/routes";
 
-    var patterns = {};
+        var patterns = {};
 
-    patterns.getPattern = function (url, callback) {
+        patterns.getPattern = function (url, callback) {
 
-      var resource = $resource(url);
+            var resource = $resource(url);
 
-      resource.get({}, function (res) {
-        callback(res);
-      }, function() {
-        callback(null);
-      });
-    };
+            resource.get({}, function (res) {
+                callback(res);
+            }, function () {
+                callback(null);
+            });
+        };
 
-    return patterns;
-  }]);
+        return patterns;
+    }]);
 
 })();

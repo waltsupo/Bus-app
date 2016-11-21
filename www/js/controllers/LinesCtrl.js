@@ -2,17 +2,19 @@
 
     var app = angular.module('Bus-app');
 
-    app.controller("journeys", function ($rootScope, $scope, $ionicPopover, Lines, Routes, JourneyPatterns) {
+    app.controller("journeys", function ($rootScope, $scope, $ionicPopover,
+                                         Lines, Routes, JourneyPatterns) {
 
         $scope.line = null;
         $scope.lines = [];
+
         Lines.getLines(function (data) {
 
             var unactive = ["2S", "13", "4YY", "13R", "13L", "24", "28",
-                            "35R", "36T", "36", "40T", "40K", "45P", "45SP",
-                            "45SS", "47", "47L", "47H", "50K", "51", "52",
-                            "52I", "53T", "53", "54", "65z", "71T", "71M",
-                            "71SKa", "71Ka", "95", "95X", "95R", "100"];
+                "35R", "36T", "36", "40T", "40K", "45P", "45SP",
+                "45SS", "47", "47L", "47H", "50K", "51", "52",
+                "52I", "53T", "53", "54", "65z", "71T", "71M",
+                "71SKa", "71Ka", "95", "95X", "95R", "100"];
             $scope.lines = data.body;
 
             for (var index = $scope.lines.length - 1; index >= 0; index--) {
@@ -63,59 +65,69 @@
 
                 for (var index = 1; index < routes.body.length; index++) {
 
-                    if (routes.body[index].journeys.length > route.journeys.length) {
+                    if (routes.body[index].journeys.length
+                        > route.journeys.length) {
 
                         route = routes.body[index];
                     }
                 }
 
                 // Get stop points and draw those and the line to the map
-                JourneyPatterns.getPattern(route.journeyPatterns[0].url, function (pattern) {
+                JourneyPatterns.getPattern(route.journeyPatterns[0].url,
+                    function (pattern) {
 
-                    // Line
-                    var lineCoords = [];
+                        // Line
+                        var lineCoords = [];
 
-                    var projectionSTR = route.geographicCoordinateProjection.split(":");
-                    var projection = [];
+                        var projectionSTR =
+                            route.geographicCoordinateProjection.split(":");
+                        var projection = [];
 
-                    for (var projInd = 0; projInd < projectionSTR.length; projInd++) {
-                        projection.push(projectionSTR[projInd].split(",").map(Number));
-                    }
+                        for (var projInd = 0;
+                             projInd < projectionSTR.length; projInd++) {
+                            projection.push(projectionSTR[projInd]
+                                .split(",").map(Number));
+                        }
 
-                    var lat = projection[0][0] / 100000;
-                    var lng = projection[0][1] / 100000;
-                    lineCoords.push(new plugin.google.maps.LatLng(lat, lng));
+                        var lat = projection[0][0] / 100000;
+                        var lng = projection[0][1] / 100000;
+                        lineCoords.push(
+                            new plugin.google.maps.LatLng(lat, lng));
 
-                    for (var index = 1; index < projection.length; index++) {
-                        lat -= projection[index][0] / 100000;
-                        lng -= projection[index][1] / 100000;
-                        lineCoords.push(new plugin.google.maps.LatLng(lat, lng));
-                    }
+                        for (var index = 1;
+                             index < projection.length; index++) {
 
-                    // Draw line
-                    $scope.map.addPolyline({
-                        points: lineCoords,
-                        'color': '#0059b3',
-                        'width': 5,
-                        'geodesic': true
-                    });
+                            lat -= projection[index][0] / 100000;
+                            lng -= projection[index][1] / 100000;
+                            lineCoords.push(
+                                new plugin.google.maps.LatLng(lat, lng));
+                        }
 
-                    // Stops
-                    var stops = pattern.body[0].stopPoints;
-
-                    for (var stopI = 0; stopI < stops.length; stopI++) {
-
-                        var position = stops[stopI].location.split(",");
-                        $scope.map.addCircle({
-                            'center': new plugin.google.maps.LatLng(position[0], position[1]),
-                            'radius': 25,
-                            'strokeColor': '#00b300',
-                            'strokeWidth': 5,
-                            'fillColor': '#00b300',
-                            'zIndex': '5'
+                        // Draw line
+                        $scope.map.addPolyline({
+                            points: lineCoords,
+                            'color': '#0059b3',
+                            'width': 5,
+                            'geodesic': true
                         });
-                    }
-                });
+
+                        // Stops
+                        var stops = pattern.body[0].stopPoints;
+
+                        for (var stopI = 0; stopI < stops.length; stopI++) {
+
+                            var position = stops[stopI].location.split(",");
+                            $scope.map.addCircle({
+                                'center': new plugin.google.maps.LatLng(
+                                    position[0], position[1]),
+                                'radius': 25,
+                                'strokeColor': '#00b300',
+                                'strokeWidth': 5,
+                                'fillColor': '#00b300',
+                                'zIndex': '5'
+                            });
+                        }
+                    });
             });
         };
 
