@@ -8,14 +8,17 @@
 
         var routes = {};
 
-        routes.getRoutes = function (lineId, callback) {
+        routes.getRoute = function (lineId) {
 
-            var resource = $resource(path + "?lineId=" + lineId);
+            return new Promise(function(resolve, reject) {
 
-            resource.get({}, function (res) {
-                callback(res);
-            }, function () {
-                callback(null);
+                var resource = $resource(path + "?lineId=" + lineId);
+
+                resource.get({}, function (res) {
+                    resolve(res);
+                }, function () {
+                    reject();
+                });
             });
         };
 

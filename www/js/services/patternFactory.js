@@ -8,14 +8,17 @@
 
         var patterns = {};
 
-        patterns.getPattern = function (url, callback) {
+        patterns.getPattern = function (url) {
 
-            var resource = $resource(url);
+            return new Promise(function(resolve, reject) {
 
-            resource.get({}, function (res) {
-                callback(res);
-            }, function () {
-                callback(null);
+                var resource = $resource(url);
+
+                resource.get({}, function (res) {
+                    resolve(res);
+                }, function () {
+                    reject();
+                });
             });
         };
 

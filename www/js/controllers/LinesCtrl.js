@@ -8,9 +8,8 @@
         $scope.line = null;
         $scope.lines = [];
 
-        Lines.getLines(function (data) {
-
-            var unactive = ["2S", "13", "4YY", "13R", "13L", "24", "28",
+        Lines.getLines().then(function(data) {
+            var notactive = ["2S", "13", "4YY", "13R", "13L", "24", "28",
                 "35R", "36T", "36", "40T", "40K", "45P", "45SP",
                 "45SS", "47", "47L", "47H", "50K", "51", "52",
                 "52I", "53T", "53", "54", "65z", "71T", "71M",
@@ -18,13 +17,15 @@
             $scope.lines = data.body;
 
             for (var index = $scope.lines.length - 1; index >= 0; index--) {
-                for (var index2 = 0; index2 < unactive.length; index2++) {
-                    if ($scope.lines[index].name == unactive[index2]) {
+                for (var index2 = 0; index2 < notactive.length; index2++) {
+                    if ($scope.lines[index].name == notactive[index2]) {
                         $scope.lines.splice(index, 1);
                         break;
                     }
                 }
             }
+        }, function () {
+            console.log("Can't get lines");
         });
 
         // Set up lines Popover and save it to variable
@@ -58,7 +59,7 @@
 
             $scope.map.clear();
 
-            Routes.getRoutes($scope.line.name, function (routes) {
+            Routes.getRoute($scope.line.name).then(function (routes) {
 
                 // Get route with most journeys to display on the map
                 var route = routes.body[0];
@@ -73,7 +74,7 @@
                 }
 
                 // Get stop points and draw those and the line to the map
-                Patterns.getPattern(route.journeyPatterns[0].url,
+                Patterns.getPattern(route.journeyPatterns[0].url).then(
                     function (pattern) {
 
                         // Line
@@ -115,51 +116,18 @@
                             var position = stops[stopI].location.split(",");
                             Map.drawStop($scope.map,
                                 new plugin.google.maps.LatLng(
-                                position[0], position[1]));
+                                    position[0], position[1]));
                         }
+                    }, function() {
+                        console.log("Can't get pattern");
                     });
-            });
-        };
-
-        var loadMap = function (map) {
-
-            /*Journeys.getJourneys(function(data) {
-             var stops = data.body[0].stopPoints;
-
-             for (var stopI = 0; stopI < stops.length; stopI++) {
-
-             var position = stops[stopI].location.split(",");
-
-             map.addMarker({
-             position: {lat: position[0], lng: position[1]},
-             title: "test marker"
-             }, function(marker) {
-
-             // Show the info window
-             marker.showInfoWindow();
-
-             // Catch the click event
-             marker.on(window.plugin.google.maps.event.INFO_CLICK, function() {
-
-             // To do something...
-             alert("Hello world!");
-
-             });
-             });
-             console.log("marker set");
-             }
-             });*/
-
-            $scope.map = map;
-
-
-            $scope.$on('popover.hidden', function () {
-                $scope.map.setClickable(true);
+            }, function() {
+                console.log("Can't load route");
             });
         };
 
         // When device is ready, set up the map
-        document.addEventListener("deviceready", function ($scope) {
+        document.addEventListener("deviceready", function () {
 
             // Get map element
             var div = document.getElementById("map_canvas");
@@ -171,10 +139,14 @@
             map.animateCamera({
                 target: {lat: 61.498753, lng: 23.776895},
                 zoom: 12,
-                duration: 2000
+                duration: 500
             });
 
-            loadMap(map);
+            $scope.map = map;
+
+            $scope.$on('popover.hidden', function () {
+                $scope.map.setClickable(true);
+            });
         }, false);
     });
 })();

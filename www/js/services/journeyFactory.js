@@ -8,14 +8,17 @@
 
         var journeys = {};
 
-        journeys.getJourneys = function (callback) {
+        journeys.getJourneys = function () {
 
-            var resource = $resource(path);
+            return new Promise(function(resolve, reject) {
 
-            resource.get({}, function (res) {
-                callback(res);
-            }, function () {
-                callback(null);
+                var resource = $resource(path);
+
+                resource.get({}, function (res) {
+                    resolve(res);
+                }, function () {
+                    reject();
+                });
             });
         };
 
