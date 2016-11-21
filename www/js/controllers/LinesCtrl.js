@@ -3,7 +3,7 @@
     var app = angular.module('Bus-app');
 
     app.controller("journeys", function ($rootScope, $scope, $ionicPopover,
-                                         Lines, Routes, JourneyPatterns) {
+                                         Lines, Routes, Patterns, Map) {
 
         $scope.line = null;
         $scope.lines = [];
@@ -73,12 +73,12 @@
                 }
 
                 // Get stop points and draw those and the line to the map
-                JourneyPatterns.getPattern(route.journeyPatterns[0].url,
+                Patterns.getPattern(route.journeyPatterns[0].url,
                     function (pattern) {
 
                         // Line
+                        // Change string of coordinates to array of coordinates
                         var lineCoords = [];
-
                         var projectionSTR =
                             route.geographicCoordinateProjection.split(":");
                         var projection = [];
@@ -89,6 +89,7 @@
                                 .split(",").map(Number));
                         }
 
+                        // Create LatLngs from array values
                         var lat = projection[0][0] / 100000;
                         var lng = projection[0][1] / 100000;
                         lineCoords.push(
@@ -104,12 +105,7 @@
                         }
 
                         // Draw line
-                        $scope.map.addPolyline({
-                            points: lineCoords,
-                            'color': '#0059b3',
-                            'width': 5,
-                            'geodesic': true
-                        });
+                        Map.drawLine($scope.map, lineCoords);
 
                         // Stops
                         var stops = pattern.body[0].stopPoints;
@@ -117,15 +113,9 @@
                         for (var stopI = 0; stopI < stops.length; stopI++) {
 
                             var position = stops[stopI].location.split(",");
-                            $scope.map.addCircle({
-                                'center': new plugin.google.maps.LatLng(
-                                    position[0], position[1]),
-                                'radius': 25,
-                                'strokeColor': '#00b300',
-                                'strokeWidth': 5,
-                                'fillColor': '#00b300',
-                                'zIndex': '5'
-                            });
+                            Map.drawStop($scope.map,
+                                new plugin.google.maps.LatLng(
+                                position[0], position[1]));
                         }
                     });
             });

@@ -2,7 +2,7 @@
 
     var app = angular.module('Bus-app');
 
-    app.factory('JourneyPatterns', ["$resource", function ($resource) {
+    app.factory('Patterns', ["$resource", function ($resource) {
 
         var path = "http://data.itsfactory.fi/journeys/api/1/routes";
 
