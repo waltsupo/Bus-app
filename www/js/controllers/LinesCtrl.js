@@ -2,7 +2,7 @@
 
     var app = angular.module('Bus-app');
 
-    app.controller("journeys", function ($rootScope, $scope, $ionicPopover,
+    app.controller("linesCtrl", function ($rootScope, $scope, $ionicPopover, $ionicSideMenuDelegate,
                                          Lines, Routes, Patterns, Map) {
 
         $scope.line = null;

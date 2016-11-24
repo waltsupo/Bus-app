@@ -1,8 +1,8 @@
 (function () {
 
-    var app = angular.module('Bus-app', ['ionic', 'ngResource'])
+    var app = angular.module('Bus-app', ['ionic', 'ngResource']);
 
-    app.run(function ($ionicPlatform) {
+    app.run(function ($ionicPlatform, $rootScope, $ionicSideMenuDelegate) {
 
         $ionicPlatform.ready(function () {
 
@@ -21,6 +21,59 @@
             if (window.StatusBar) {
                 StatusBar.styleDefault();
             }
+
+            $rootScope.$watch(function() {
+                return $ionicSideMenuDelegate.getOpenRatio();
+            }, function(newValue, oldValue) {
+                if (newValue == 0) {
+                    $rootScope.hideLeft = true;
+                } else {
+                    $rootScope.hideLeft = false;
+                }
+            });
         });
     });
+
+    app.config(function($stateProvider, $urlRouterProvider) {
+        $stateProvider
+
+            .state('app', {
+                url: '/app',
+                abstract: true,
+                templateUrl: 'templates/menu.html'
+            })
+
+            .state('app.lines', {
+                url: '/lines',
+                views: {
+                    'content': {
+                        templateUrl: 'templates/lines.html',
+                        controller: 'linesCtrl'
+                    }
+                }
+            })
+
+            .state('app.routes', {
+                url: '/routes',
+                views: {
+                    'content': {
+                        templateUrl: 'templates/routes.html',
+                        controller: 'routesCtrl'
+                    }
+                }
+            })
+            .state('app.timetables', {
+                url: '/timetables',
+                views: {
+                    'content': {
+                        templateUrl: 'templates/timetables.html',
+                        controller: 'timetablesCtrl'
+                    }
+                }
+            });
+
+        // if none of the above states are matched, use this as the fallback
+        $urlRouterProvider.otherwise('/app/lines');
+    });
+
 })();
