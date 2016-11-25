@@ -89,7 +89,7 @@
                     }
                 }
 
-                $scope.description = route.name;
+                $rootScope.route = route;
 
                 // Get stop points and draw those and the line to the map
                 Patterns.getPattern(route.journeyPatterns[0].url).then(
