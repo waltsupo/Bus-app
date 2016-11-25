@@ -153,7 +153,7 @@
                 $rootScope.map = window.plugin.google.maps.Map.getMap(div);
             }
 
-            map.animateCamera({
+            $rootScope.map.animateCamera({
                 target: {lat: 61.498753, lng: 23.776895},
                 zoom: 12,
                 duration: 500
