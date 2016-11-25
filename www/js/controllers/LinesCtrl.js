@@ -73,7 +73,7 @@
 
             $rootScope.map.clear();
 
-            Routes.getRoute($scope.line.name).then(function (routes) {
+            Routes.getRoute($scope.line.name, ["journeys", "journeyPatterns", "geographicCoordinateProjection"]).then(function (routes) {
 
                 // Get route with most journeys to display on the map
                 var route = null;
