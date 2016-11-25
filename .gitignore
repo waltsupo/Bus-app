@@ -4,6 +4,4 @@
 node_modules/
 platforms/
 plugins/
-.idea/workspace.xml
-.idea/Bus-app.iml
-.idea/misc.xml
+.idea
