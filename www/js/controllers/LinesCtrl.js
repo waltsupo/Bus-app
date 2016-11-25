@@ -41,7 +41,7 @@
         // Lines Popover
         $scope.open_lines = function ($event) {
 
-            $scope.map.setClickable(false);
+            $rootScope.map.setClickable(false);
             $scope.popover.show($event);
         };
 
@@ -71,7 +71,7 @@
 
         var loadLine = function () {
 
-            $scope.map.clear();
+            $rootScope.map.clear();
 
             Routes.getRoute($scope.line.name).then(function (routes) {
 
@@ -124,7 +124,7 @@
                         }
 
                         // Draw line
-                        Map.drawLine($scope.map, lineCoords);
+                        Map.drawLine(lineCoords);
 
                         // Stops
                         var stops = pattern.body[0].stopPoints;
@@ -132,8 +132,7 @@
                         for (var stopI = 0; stopI < stops.length; stopI++) {
 
                             var position = stops[stopI].location.split(",");
-                            Map.drawStop($scope.map,
-                                new plugin.google.maps.LatLng(
+                            Map.drawStop(new plugin.google.maps.LatLng(
                                     position[0], position[1]));
                         }
                     }, function() {
@@ -144,26 +143,30 @@
             });
         };
 
-        // When device is ready, set up the map
-        document.addEventListener("deviceready", function () {
+        var loadMap = function() {
 
-            // Get map element
             var div = document.getElementById("map_canvas");
 
-            // Initialize the map view
-            var map = window.plugin.google.maps.Map.getMap(div);
+            if ($rootScope.map) {
+                $rootScope.map.setDiv(div);
+            } else {
+                $rootScope.map = window.plugin.google.maps.Map.getMap(div);
+            }
 
-            // Move camera to show Tampere
             map.animateCamera({
                 target: {lat: 61.498753, lng: 23.776895},
                 zoom: 12,
                 duration: 500
             });
+        };
 
-            $scope.map = map;
+        // When device is ready, set up the map
+        document.addEventListener("deviceready", function () {
+
+            loadMap();
 
             $scope.$on('popover.hidden', function () {
-                $scope.map.setClickable(true);
+                $rootScope.map.setClickable(true);
             });
         }, false);
     });
