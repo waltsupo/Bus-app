@@ -9,5 +9,9 @@
           <a class="button button-icon icon ion-android-sync"></a>
         </div>
       </div>
+    </div>
+    <ul class="list">
+      <li class="item" ng-repeat="stopPoint in stops.stopPoints" ng-bind="stopPoint.name"></li>
+    </ul>
   </ion-content>
 </ion-view>

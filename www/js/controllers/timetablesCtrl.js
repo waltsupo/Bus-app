@@ -4,6 +4,8 @@
 
     app.controller('timetablesCtrl', function ($scope, $rootScope, Routes, Patterns, Map) {
 
+        $scope.stops = {stopPoints: []};
+
         $scope.change_dir = function() {
             $scope.change_dir = function () {
 
@@ -75,11 +77,11 @@
                         Map.drawLine(lineCoords);
 
                         // Stops
-                        var stops = pattern.body[0].stopPoints;
+                        $scope.stops.stopPoints = pattern.body[0].stopPoints;
 
-                        for (var stopI = 0; stopI < stops.length; stopI++) {
+                        for (var stopI = 0; stopI < $scope.stops.stopPoints.length; stopI++) {
 
-                            var position = stops[stopI].location.split(",");
+                            var position = $scope.stops.stopPoints[stopI].location.split(",");
                             Map.drawStop(new plugin.google.maps.LatLng(
                                 position[0], position[1]));
                         }
