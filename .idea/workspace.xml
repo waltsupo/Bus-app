@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="c386d945-1f5a-4115-9cb2-08b619f32342" name="Default" comment="Remove unecessary files and add thos to">
+    <list default="true" id="c386d945-1f5a-4115-9cb2-08b619f32342" name="Default" comment="">
       <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/Bus-app.iml" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/jsLibraryMappings.xml" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="" />
@@ -327,7 +327,7 @@
       <workItem from="1480072209357" duration="3458000" />
       <workItem from="1480075708581" duration="119000" />
       <workItem from="1480075857331" duration="95000" />
-      <workItem from="1480076104119" duration="133000" />
+      <workItem from="1480076104119" duration="156000" />
     </task>
     <task id="LOCAL-00001" summary="Add polyline that goes through stops">
       <created>1479386202454</created>
@@ -441,11 +441,18 @@
       <option name="project" value="LOCAL" />
       <updated>1480076178014</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="Remove unecessary files and add those to ignore list">
+      <created>1480076249402</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1480076249403</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="27684000" />
+    <option name="totallyTimeSpent" value="27707000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
@@ -501,7 +508,8 @@
     <MESSAGE value="Modify routeFactory's getRoute to take in exclusions" />
     <MESSAGE value="Remove unecessary files" />
     <MESSAGE value="Remove unecessary files(again) and Fix bug with lines" />
-    <option name="LAST_COMMIT_MESSAGE" value="Remove unecessary files(again) and Fix bug with lines" />
+    <MESSAGE value="Remove unecessary files and add those to ignore list" />
+    <option name="LAST_COMMIT_MESSAGE" value="Remove unecessary files and add those to ignore list" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
