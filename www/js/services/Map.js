@@ -2,12 +2,12 @@
 
     var app = angular.module('Bus-app');
 
-    app.service('Map', function () {
+    app.service('Map', function ($rootScope) {
 
 
-        this.drawStop = function (map, position) {
+        this.drawStop = function (position) {
 
-            map.addCircle({
+            $rootScope.map.addCircle({
                 'center': position,
                 'radius': 25,
                 'strokeColor': '#00b300',
@@ -17,9 +17,9 @@
             });
         };
 
-        this.drawLine = function (map, points) {
+        this.drawLine = function (points) {
 
-            map.addPolyline({
+            $rootScope.map.addPolyline({
                 points: points,
                 'color': '#0059b3',
                 'width': 5,
