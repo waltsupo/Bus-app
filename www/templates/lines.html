@@ -3,12 +3,14 @@
     <div style="width:100%;height:100%" id="map_canvas">
       <div class="row">
         <div class="col col-75">
-          <h1 style="text-align:center;" ng-bind="line.description"></h1>
+          <h1 style="text-align:center;" ng-bind="description"></h1>
         </div>
         <div class="col">
           <button ng-click="open_lines($event)"
                   style="width: 60px; height: 60px;" ng-bind="line.name">
           </button>
+          <div ng-click="change_dir()">
+            <a class="button button-icon icon ion-android-sync"></a>
         </div>
       </div>
     </div>

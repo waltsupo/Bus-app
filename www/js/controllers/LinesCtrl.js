@@ -7,6 +7,9 @@
 
         $scope.line = null;
         $scope.lines = [];
+        $scope.description = null;
+        $rootScope.hideLeft = true;
+        var dir = 1;
 
         Lines.getLines().then(function(data) {
             var notactive = ["2S", "13", "4YY", "13R", "13L", "24", "28",
@@ -47,6 +50,17 @@
             $scope.popover.hide();
         };
 
+        $scope.change_dir = function () {
+
+            if (dir == 1) {
+                dir = 0;
+            } else {
+                dir = 1;
+            }
+
+            loadLine();
+        };
+
         // Lines list items
         $scope.selectLine = function (line) {
 
@@ -62,16 +76,20 @@
             Routes.getRoute($scope.line.name).then(function (routes) {
 
                 // Get route with most journeys to display on the map
-                var route = routes.body[0];
+                var route = null;
+                var maxL = 0;
 
-                for (var index = 1; index < routes.body.length; index++) {
+                for (var index = 0; index < routes.body.length; index++) {
 
                     if (routes.body[index].journeys.length
-                        > route.journeys.length) {
+                        > maxL && routes.body[index].journeys[0].directionId == dir) {
 
                         route = routes.body[index];
+                        maxL = route.journeys.length;
                     }
                 }
+
+                $scope.description = route.name;
 
                 // Get stop points and draw those and the line to the map
                 Patterns.getPattern(route.journeyPatterns[0].url).then(
