@@ -1,5 +1,13 @@
 <ion-view view-title="timetables">
   <ion-content>
-    <h1>Times</h1>
+    <div class="row">
+      <div class="col col-75">
+        <h1 style="text-align:center;" ng-bind="route.name"></h1>
+      </div>
+      <div class="col">
+        <div ng-click="change_dir()">
+          <a class="button button-icon icon ion-android-sync"></a>
+        </div>
+      </div>
   </ion-content>
 </ion-view>

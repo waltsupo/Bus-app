@@ -5,11 +5,11 @@
     app.controller("linesCtrl", function ($rootScope, $scope, $ionicPopover, $ionicSideMenuDelegate,
                                          Lines, Routes, Patterns, Map) {
 
-        $scope.line = null;
+        $rootScope.line = null;
         $scope.lines = [];
         $scope.description = null;
         $rootScope.hideLeft = true;
-        var dir = 1;
+        $rootScope.dir = 1;
 
         Lines.getLines().then(function(data) {
             var notactive = ["2S", "13", "4YY", "13R", "13L", "24", "28",
@@ -52,10 +52,10 @@
 
         $scope.change_dir = function () {
 
-            if (dir == 1) {
-                dir = 0;
+            if ($rootScope.dir == 1) {
+                $rootScope.dir = 0;
             } else {
-                dir = 1;
+                $rootScope.dir = 1;
             }
 
             loadLine();
@@ -65,7 +65,7 @@
         $scope.selectLine = function (line) {
 
             $scope.close_lines();
-            $scope.line = line;
+            $rootScope.line = line;
             loadLine();
         };
 
@@ -82,7 +82,7 @@
                 for (var index = 0; index < routes.body.length; index++) {
 
                     if (routes.body[index].journeys.length
-                        > maxL && routes.body[index].journeys[0].directionId == dir) {
+                        > maxL && routes.body[index].journeys[0].directionId == $rootScope.dir) {
 
                         route = routes.body[index];
                         maxL = route.journeys.length;
