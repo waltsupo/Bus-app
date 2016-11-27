@@ -43,16 +43,6 @@
                 templateUrl: 'templates/menu.html'
             })
 
-            .state('app.lines', {
-                url: '/lines',
-                views: {
-                    'content': {
-                        templateUrl: 'templates/lines.html',
-                        controller: 'linesCtrl'
-                    }
-                }
-            })
-
             .state('app.routes', {
                 url: '/routes',
                 views: {
@@ -73,7 +63,7 @@
             });
 
         // if none of the above states are matched, use this as the fallback
-        $urlRouterProvider.otherwise('/app/lines');
+        $urlRouterProvider.otherwise('/app/timetables');
     });
 
 })();
