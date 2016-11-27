@@ -5,6 +5,7 @@
     app.controller('timetablesCtrl', function ($scope, $rootScope, Routes, Patterns, Map) {
 
         $scope.stops = {stopPoints: []};
+        $rootScope.map.setDiv(document.getElementById("map_canvas2"));
 
         $scope.change_dir = function() {
             $scope.change_dir = function () {
@@ -39,7 +40,7 @@
                     }
                 }
 
-                $rootScope.route = route;
+                $scope.$apply(function() {$rootScope.route = route;});
 
                 // Get stop points and draw those and the line to the map
                 Patterns.getPattern(route.journeyPatterns[0].url).then(
@@ -77,7 +78,9 @@
                         Map.drawLine(lineCoords);
 
                         // Stops
-                        $scope.stops.stopPoints = pattern.body[0].stopPoints;
+                        $scope.$apply(function() {
+                            $scope.stops.stopPoints = pattern.body[0].stopPoints;
+                        });
 
                         for (var stopI = 0; stopI < $scope.stops.stopPoints.length; stopI++) {
 
