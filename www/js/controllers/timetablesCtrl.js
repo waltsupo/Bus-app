@@ -5,7 +5,9 @@
     app.controller('timetablesCtrl', function ($scope, $rootScope, Routes, Patterns, Map) {
 
         $scope.stops = {stopPoints: []};
-        $rootScope.map.setDiv(document.getElementById("map_canvas2"));
+        $scope.$on("$ionicView.enter", function(event, data) {
+            $rootScope.map.setDiv(document.getElementById("map_canvas2"));
+        });
 
         $scope.change_dir = function() {
             $scope.change_dir = function () {
