@@ -12,6 +12,8 @@
         $rootScope.hideLeft = true;
         $scope.dir = 1;
 
+        var map_open = false;
+
         // Set up lines Popover and save it to variable
         $ionicPopover.fromTemplateUrl('templates/route-list.html', {
             scope: $scope
@@ -124,6 +126,20 @@
             }, function() {
                 console.log("Can't load route");
             });
+        };
+
+        $scope.openMap = function() {
+
+            console.log(map_open);
+            if (map_open) {
+                map_open = false;
+                document.getElementById("map_canvas").style.height="30%";
+                document.getElementById("stops").style.top="37%";
+            } else {
+                map_open = true;
+                document.getElementById("map_canvas").style.height="100%";
+                document.getElementById("stops").style.top="100%";
+            }
         };
 
         var loadMap = function() {
