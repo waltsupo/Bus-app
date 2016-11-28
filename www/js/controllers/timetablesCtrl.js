@@ -6,31 +6,11 @@
                                                Lines, Routes, Patterns, Map) {
 
         $scope.stops = {stopPoints: []};
-        $rootScope.line = null;
+        $scope.line = null;
         $scope.lines = [];
         $scope.description = null;
         $rootScope.hideLeft = true;
-        $rootScope.dir = 1;
-
-        Lines.getLines().then(function(data) {
-            var notactive = ["2S", "13", "4YY", "13R", "13L", "24", "28",
-                "35R", "36T", "36", "40T", "40K", "45P", "45SP",
-                "45SS", "47", "47L", "47H", "50K", "51", "52",
-                "52I", "53T", "53", "54", "65z", "71T", "71M",
-                "71SKa", "71Ka", "95", "95X", "95R", "100"];
-            $scope.lines = data.body;
-
-            for (var index = $scope.lines.length - 1; index >= 0; index--) {
-                for (var index2 = 0; index2 < notactive.length; index2++) {
-                    if ($scope.lines[index].name == notactive[index2]) {
-                        $scope.lines.splice(index, 1);
-                        break;
-                    }
-                }
-            }
-        }, function () {
-            console.log("Can't get lines");
-        });
+        $scope.dir = 1;
 
         // Set up lines Popover and save it to variable
         $ionicPopover.fromTemplateUrl('templates/route-list.html', {
@@ -38,10 +18,6 @@
         }).then(function (popover) {
             $scope.popover = popover;
         });
-
-        /*$scope.$on("$ionicView.enter", function(event, data) {
-            $rootScope.map.setDiv(document.getElementById("map_canvas"));
-        });*/
 
         // Lines Popover
         $scope.open_lines = function ($event) {
@@ -57,10 +33,10 @@
 
         $scope.change_dir = function () {
 
-            if ($rootScope.dir == 1) {
-                $rootScope.dir = 0;
+            if ($scope.dir == 1) {
+                $scope.dir = 0;
             } else {
-                $rootScope.dir = 1;
+                $scope.dir = 1;
             }
 
             loadLine();
@@ -70,13 +46,13 @@
         $scope.selectLine = function (line) {
 
             $scope.close_lines();
-            $rootScope.line = line;
+            $scope.line = line;
             loadLine();
         };
 
         var loadLine = function () {
 
-            $rootScope.map.clear();
+            $scope.map.clear();
 
             Routes.getRoute($scope.line.name, []).then(function (routes) {
 
@@ -87,14 +63,14 @@
                 for (var index = 0; index < routes.body.length; index++) {
 
                     if (routes.body[index].journeys.length
-                        > maxL && routes.body[index].journeys[0].directionId == $rootScope.dir) {
+                        > maxL && routes.body[index].journeys[0].directionId == $scope.dir) {
 
                         route = routes.body[index];
                         maxL = route.journeys.length;
                     }
                 }
 
-                $scope.$apply(function() {$rootScope.route = route;});
+                $scope.$apply(function() {$scope.route = route;});
 
                 // Get stop points and draw those and the line to the map
                 Patterns.getPattern(route.journeyPatterns[0].url).then(
@@ -152,7 +128,7 @@
 
         var loadMap = function() {
 
-            var div = document.getElementById("map_canvas2");
+            var div = document.getElementById("map_canvas");
 
             if ($rootScope.map) {
                 $rootScope.map.setDiv(div);
@@ -176,8 +152,31 @@
                 $rootScope.map.setClickable(true);
             });
             $scope.$on("$ionicView.enter", function(event, data) {
-                $rootScope.map.setDiv(document.getElementById("map_canvas2"));
+                $rootScope.map.setDiv(document.getElementById("map_canvas"));
             });
+
+            Lines.getLines().then(function(data) {
+                var notactive = ["2S", "13", "4YY", "13R", "13L", "24", "28",
+                    "35R", "36T", "36", "40T", "40K", "45P", "45SP",
+                    "45SS", "47", "47L", "47H", "50K", "51", "52",
+                    "52I", "53T", "53", "54", "65z", "71T", "71M",
+                    "71SKa", "71Ka", "95", "95X", "95R", "100"];
+                $scope.lines = data.body;
+
+                for (var index = $scope.lines.length - 1; index >= 0; index--) {
+                    for (var index2 = 0; index2 < notactive.length; index2++) {
+                        if ($scope.lines[index].name == notactive[index2]) {
+                            $scope.lines.splice(index, 1);
+                            break;
+                        }
+                    }
+                }
+                $scope.selectLine($scope.lines[0]);
+
+            }, function () {
+                console.log("Can't get lines");
+            });
+
         }, false);
     })
 })();
