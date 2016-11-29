@@ -97,7 +97,6 @@
 
         $scope.openMap = function() {
 
-            console.log(map_open);
             if (map_open) {
                 map_open = false;
                 document.getElementById("map_canvas").style.height="30%";

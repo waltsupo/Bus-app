@@ -67,7 +67,8 @@
                 url: '/stop',
                 views: {
                     'content': {
-                        templateUrl: 'templates/stop.html'
+                        templateUrl: 'templates/stop.html',
+                        controller: 'stopCtrl'
                     }
                 }
             });
