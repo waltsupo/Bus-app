@@ -52,12 +52,22 @@
                     }
                 }
             })
+
             .state('app.timetables', {
                 url: '/timetables',
                 views: {
                     'content': {
                         templateUrl: 'templates/timetables.html',
                         controller: 'timetablesCtrl'
+                    }
+                }
+            })
+
+            .state('app.stop', {
+                url: '/stop',
+                views: {
+                    'content': {
+                        templateUrl: 'templates/stop.html'
                     }
                 }
             });

@@ -23,7 +23,9 @@
     <div class="item" ng-repeat="stopPoint in stops.stopPoints">
       <div class="panel panel-default">
         <div class="panel-heading" ng-bind="stopPoint.name"></div>
-        <div class="panel-body"></div>
+        <div class="panel-body">
+          <a class="button button-icon icon ion-map" ng-click="open_stop(stopPoint)"></a>
+        </div>
       </div>
     </div>
   </ion-content>
