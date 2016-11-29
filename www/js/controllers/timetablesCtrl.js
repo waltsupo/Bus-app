@@ -12,7 +12,9 @@
         $rootScope.hideLeft = true;
         $scope.dir = 1;
 
+        var selected_stop = 0;
         var map_open = false;
+        var pattern = null;
 
         // Set up lines Popover and save it to variable
         $ionicPopover.fromTemplateUrl('templates/route-list.html', {
@@ -31,6 +33,12 @@
         $scope.close_lines = function () {
 
             $scope.popover.hide();
+        };
+
+        $scope.open_stop = function(stopPoint) {
+
+            $rootScope.stop = stopPoint;
+            location.href = "#/app/stop";
         };
 
         $scope.change_dir = function () {
@@ -72,54 +80,13 @@
                     }
                 }
 
-                $scope.$apply(function() {$scope.route = route;});
+                $scope.$apply(function() {$scope.route = route;$rootScope.route = route});
 
                 // Get stop points and draw those and the line to the map
                 Patterns.getPattern(route.journeyPatterns[0].url).then(
-                    function (pattern) {
-
-                        // Line
-                        // Change string of coordinates to array of coordinates
-                        var lineCoords = [];
-                        var projectionSTR =
-                            route.geographicCoordinateProjection.split(":");
-                        var projection = [];
-
-                        for (var projInd = 0;
-                             projInd < projectionSTR.length; projInd++) {
-                            projection.push(projectionSTR[projInd]
-                                .split(",").map(Number));
-                        }
-
-                        // Create LatLngs from array values
-                        var lat = projection[0][0] / 100000;
-                        var lng = projection[0][1] / 100000;
-                        lineCoords.push(
-                            new plugin.google.maps.LatLng(lat, lng));
-
-                        for (var index = 1;
-                             index < projection.length; index++) {
-
-                            lat -= projection[index][0] / 100000;
-                            lng -= projection[index][1] / 100000;
-                            lineCoords.push(
-                                new plugin.google.maps.LatLng(lat, lng));
-                        }
-
-                        // Draw line
-                        Map.drawLine(lineCoords);
-
-                        // Stops
-                        $scope.$apply(function() {
-                            $scope.stops.stopPoints = pattern.body[0].stopPoints;
-                        });
-
-                        for (var stopI = 0; stopI < $scope.stops.stopPoints.length; stopI++) {
-
-                            var position = $scope.stops.stopPoints[stopI].location.split(",");
-                            Map.drawStop(new plugin.google.maps.LatLng(
-                                position[0], position[1]));
-                        }
+                    function(newPattern) {
+                        pattern = newPattern;
+                        drawMap();
                     }, function() {
                         console.log("Can't get pattern");
                     });
@@ -139,6 +106,57 @@
                 map_open = true;
                 document.getElementById("map_canvas").style.height="100%";
                 document.getElementById("stops").style.top="100%";
+            }
+        };
+
+        var drawMap = function() {
+
+            // Line
+            // Change string of coordinates to array of coordinates
+            var lineCoords = [];
+            var projectionSTR =
+                $scope.route.geographicCoordinateProjection.split(":");
+            var projection = [];
+
+            for (var projInd = 0;
+                 projInd < projectionSTR.length; projInd++) {
+                projection.push(projectionSTR[projInd]
+                    .split(",").map(Number));
+            }
+
+            // Create LatLngs from array values
+            var lat = projection[0][0] / 100000;
+            var lng = projection[0][1] / 100000;
+            lineCoords.push(
+                new plugin.google.maps.LatLng(lat, lng));
+
+            for (var index = 1;
+                 index < projection.length; index++) {
+
+                lat -= projection[index][0] / 100000;
+                lng -= projection[index][1] / 100000;
+                lineCoords.push(
+                    new plugin.google.maps.LatLng(lat, lng));
+            }
+
+            // Draw line
+            Map.drawLine(lineCoords);
+
+            // Stops
+            $scope.$apply(function () {
+                $scope.stops.stopPoints = pattern.body[0].stopPoints;
+            });
+
+            for (var stopI = 0; stopI < $scope.stops.stopPoints.length; stopI++) {
+
+                var position = $scope.stops.stopPoints[stopI].location.split(",");
+                if (stopI == selected_stop) {
+                    Map.drawSelectedStop(new plugin.google.maps.LatLng(
+                        position[0], position[1]));
+                } else {
+                    Map.drawStop(new plugin.google.maps.LatLng(
+                        position[0], position[1]));
+                }
             }
         };
 

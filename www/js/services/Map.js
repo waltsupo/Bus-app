@@ -17,6 +17,18 @@
             });
         };
 
+        this.drawSelectedStop = function(position) {
+
+            $rootScope.map.addCircle({
+                'center': position,
+                'radius': 25,
+                'strokeColor': '#000000',
+                'strokeWidth': 5,
+                'fillColor': '#000000',
+                'zIndex': '5'
+            });
+        };
+
         this.drawLine = function (points) {
 
             $rootScope.map.addPolyline({
