@@ -1,3 +1,30 @@
 <ion-view view-title="{{name}}">
-    <h1>Hello</h1>
+    <ion-content>
+        <div class="row" style="top:60px">
+            <div class="col col-33" style="padding:0">
+                <button style="width: 100%; height: 60px;" ng-click="openMenu(0)">
+                    Ma - Pe
+                </button>
+            </div>
+            <div class="col col-34" style="padding:0">
+                <button style="width: 100%; height: 60px;" ng-click="openMenu(1)">
+                    La
+                </button>
+            </div>
+            <div class="col" style="padding:0">
+                <button style="width: 100%; height: 60px;" ng-click="openMenu(2)">
+                    Su
+                </button>
+            </div>
+        </div>
+        <div ng-show="isOpen(0)">
+            <h1>hello0</h1>
+        </div>
+        <div ng-show="isOpen(1)">
+            <h1>hello1</h1>
+        </div>
+        <div ng-show="isOpen(2)">
+            <h1>hello2</h1>
+        </div>
+    </ion-content>
 </ion-view>
