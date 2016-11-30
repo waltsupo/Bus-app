@@ -22,6 +22,20 @@
             });
         };
 
+        journeys.getJourney = function(url) {
+
+            return new Promise(function(resolve, reject) {
+
+                var resource = $resource(url);
+
+                resource.get({}, function (res) {
+                    resolve(res);
+                }, function () {
+                    reject();
+                });
+            });
+        };
+
         return journeys;
     }]);
 
