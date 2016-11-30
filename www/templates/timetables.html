@@ -20,13 +20,11 @@
         </button>
       </div>
     </div>
-    <div class="item" ng-repeat="stopPoint in stops.stopPoints">
-      <div class="panel panel-default">
-        <div class="panel-heading" ng-bind="stopPoint.name"></div>
-        <div class="panel-body">
-          <a class="button button-icon icon ion-map" ng-click="open_stop(stopPoint)"></a>
-        </div>
+    <div class="item row" ng-repeat="stopPoint in stops.stopPoints">
+      <div class="col col-75">
+        <div ng-bind="stopPoint.name"></div>
       </div>
+      <a class="col button button-icon icon ion-ios-list-outline" ng-click="open_stop(stopPoint)"></a>
     </div>
   </ion-content>
 </ion-view>
