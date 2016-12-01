@@ -22,19 +22,17 @@
                 StatusBar.styleDefault();
             }
 
+            // Watch sidemenu state, hide if closed
             $rootScope.$watch(function() {
                 return $ionicSideMenuDelegate.getOpenRatio();
             }, function(newValue, oldValue) {
-                if (newValue == 0) {
-                    $rootScope.hideLeft = true;
-                } else {
-                    $rootScope.hideLeft = false;
-                }
+                $rootScope.hideLeft = (newValue == 0);
             });
         });
     });
 
     app.config(function($stateProvider, $urlRouterProvider) {
+        
         $stateProvider
 
             .state('app', {
