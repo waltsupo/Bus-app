@@ -13,7 +13,6 @@
         routes.getRoute = function (lineId) {
 
             var url = path + "?lineId=" + lineId;
-
             return Utils.getResponse(url);
         };
 

@@ -2,7 +2,7 @@
 
     var app = angular.module('Bus-app');
 
-    app.factory('Journeys', ["$resource", function ($resource) {
+    app.factory('Journeys', function (Utils) {
 
         var path = "http://data.itsfactory.fi/journeys/api/1/journey-patterns";
 
@@ -10,33 +10,10 @@
 
         journeys.getJourneys = function () {
 
-            return new Promise(function(resolve, reject) {
-
-                var resource = $resource(path);
-
-                resource.get({}, function (res) {
-                    resolve(res);
-                }, function () {
-                    reject();
-                });
-            });
-        };
-
-        journeys.getJourney = function(url) {
-
-            return new Promise(function(resolve, reject) {
-
-                var resource = $resource(url);
-
-                resource.get({}, function (res) {
-                    resolve(res);
-                }, function () {
-                    reject();
-                });
-            });
+            return Utils.getResponse(path);
         };
 
         return journeys;
-    }]);
+    });
 
 })();
