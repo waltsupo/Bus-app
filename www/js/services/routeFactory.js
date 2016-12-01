@@ -2,7 +2,7 @@
 
     var app = angular.module('Bus-app');
 
-    app.factory('Routes', ["$resource", function ($resource) {
+    app.factory('Routes', ["$resource", function (Utils) {
 
         // Default path to get route info
         var path = "http://data.itsfactory.fi/journeys/api/1/routes";
@@ -14,16 +14,7 @@
 
             var url = path + "?lineId=" + lineId;
 
-            return new Promise(function(resolve, reject) {
-
-                var resource = $resource(url);
-
-                resource.get({}, function (res) {
-                    resolve(res);
-                }, function () {
-                    reject();
-                });
-            });
+            return Utils.getResponse(url);
         };
 
         return routes;
