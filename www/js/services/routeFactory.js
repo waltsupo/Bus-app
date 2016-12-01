@@ -4,27 +4,15 @@
 
     app.factory('Routes', ["$resource", function ($resource) {
 
+        // Default path to get route info
         var path = "http://data.itsfactory.fi/journeys/api/1/routes";
 
         var routes = {};
 
-        routes.getRoute = function (lineId, exclusions) {
+        // Returns json object of line that has given ID
+        routes.getRoute = function (lineId) {
 
             var url = path + "?lineId=" + lineId;
-
-            if (exclusions.length > 0) {
-
-                url += "&exclude-fields=";
-
-                for (var index = 0; index < exclusions.length; index++) {
-
-                    url += exclusions[index];
-
-                    if (index < exclusions.length - 1) {
-                        url += ",";
-                    }
-                }
-            }
 
             return new Promise(function(resolve, reject) {
 
