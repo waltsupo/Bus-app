@@ -19,7 +19,7 @@
         </div>
         <div ng-show="isOpen(0)">
             <ul class="list">
-                <div class="item row" ng-repeat="hour in hours1">
+                <div class="item row" ng-repeat="hour in times.monfri">
                     <div class="col col-offset-5 col-10" ng-bind="hour[0]"></div>
                     <div class="col col-10"></div>
                     <p class="col" ng-repeat="min in hour[1]" ng-bind="min"></p>
@@ -28,7 +28,7 @@
         </div>
         <div ng-show="isOpen(1)">
             <ul class="list">
-                <div class="item row" ng-repeat="hour in hours2">
+                <div class="item row" ng-repeat="hour in times.sat">
                     <div class="col col-offset-5 col-10" ng-bind="hour[0]"></div>
                     <div class="col col-10"></div>
                     <p class="col" ng-repeat="min in hour[1]" ng-bind="min"></p>
@@ -37,7 +37,7 @@
         </div>
         <div ng-show="isOpen(2)">
             <ul class="list">
-                <div class="item row" ng-repeat="hour in hours3">
+                <div class="item row" ng-repeat="hour in times.sun">
                     <div class="col col-offset-5 col-10" ng-bind="hour[0]"></div>
                     <div class="col col-10"></div>
                     <p class="col" ng-repeat="min in hour[1]" ng-bind="min"></p>

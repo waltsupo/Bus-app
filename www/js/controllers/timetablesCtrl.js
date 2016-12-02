@@ -3,7 +3,7 @@
     var app = angular.module('Bus-app');
 
     app.controller('timetablesCtrl', function ($rootScope, $scope, $ionicPopover, $ionicSideMenuDelegate,
-                                               Lines, Routes, Patterns, Map) {
+                                               Lines, Routes, Utils, Map) {
 
         $scope.stops = {stopPoints: []};
         $scope.line = null;
@@ -83,7 +83,7 @@
                 $scope.$apply(function() {$scope.route = route;$rootScope.route = route});
 
                 // Get stop points and draw those and the line to the map
-                Patterns.getPattern(route.journeyPatterns[0].url).then(
+                Utils.getResponse(route.journeyPatterns[0].url).then(
                     function(newPattern) {
                         pattern = newPattern;
                         drawMap();
