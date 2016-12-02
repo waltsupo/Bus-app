@@ -9,6 +9,7 @@
 
         $scope.name = $rootScope.stop.name + " (" + $rootScope.stop.shortName + ")";
 
+        // Load arrive times
         Utils.getResponse(
             "http://data.itsfactory.fi/journeys/api/1/journeys?routeId="
             + $rootScope.route.url.split("/").slice(-1)[0])
