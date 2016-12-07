@@ -46,7 +46,7 @@
                 views: {
                     'content': {
                         templateUrl: 'templates/routes.html',
-                        controller: 'routesCtrl'
+                        controller: 'routesCtrl',
                     }
                 }
             })

@@ -15,7 +15,7 @@
 
         var dir = 1;
         var selected_stop = 0;
-        var map_open = false;
+        var mapOpen = false;
         var pattern = null;
 
         // Set up lines Popover and save it to variable
@@ -104,12 +104,12 @@
 
         $scope.openMap = function() {
 
-            if (map_open) {
-                map_open = false;
+            if (mapOpen) {
+                mapOpen = false;
                 document.getElementById("map_canvas").style.height="30%";
                 document.getElementById("stops").style.top="37%";
             } else {
-                map_open = true;
+                mapOpen = true;
                 document.getElementById("map_canvas").style.height="100%";
                 document.getElementById("stops").style.top="100%";
             }
@@ -191,8 +191,14 @@
             $scope.$on('popover.hidden', function () {
                 $rootScope.map.setClickable(true);
             });
+
             $scope.$on("$ionicView.enter", function(event, data) {
+
                 $rootScope.map.setDiv(document.getElementById("map_canvas"));
+
+                if ($scope.route) {
+                    drawMap();
+                }
             });
 
             Lines.getLines().then(function(data) {
