@@ -10,21 +10,21 @@
         <h1 style="text-align:center;" ng-bind="route.name"></h1>
       </div>
       <div class="col col-20">
-        <div ng-click="change_dir()">
+        <div ng-click="changeDir()">
           <a class="button button-icon icon ion-android-sync"></a>
         </div>
       </div>
       <div class="col">
-        <button ng-click="open_lines($event)"
+        <button ng-click="openLines($event)"
                 style="width: 60px; height: 60px;" ng-bind="line.name">
         </button>
       </div>
     </div>
-    <div class="item row" ng-repeat="stopPoint in stops.stopPoints">
+    <div class="item row" ng-repeat="stopPoint in stops" ng-click="selectStop(stopPoint)">
       <div class="col col-75">
         <div ng-bind="stopPoint.name"></div>
       </div>
-      <a class="col button button-icon icon ion-ios-list-outline" ng-click="open_stop(stopPoint)"></a>
+      <a class="col button button-icon icon ion-ios-list-outline" ng-click="openStop(stopPoint)"></a>
     </div>
   </ion-content>
 </ion-view>

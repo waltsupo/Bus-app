@@ -5,13 +5,15 @@
     app.controller('timetablesCtrl', function ($rootScope, $scope, $ionicPopover, $ionicSideMenuDelegate,
                                                Lines, Routes, Utils, Map) {
 
-        $scope.stops = {stopPoints: []};
+        // Hide menu
+        $rootScope.hideLeft = true;
+
+        $scope.stops = [];
         $scope.line = null;
         $scope.lines = [];
         $scope.description = null;
-        $rootScope.hideLeft = true;
-        $scope.dir = 1;
 
+        var dir = 1;
         var selected_stop = 0;
         var map_open = false;
         var pattern = null;
@@ -24,29 +26,34 @@
         });
 
         // Lines Popover
-        $scope.open_lines = function ($event) {
+        $scope.openLines = function ($event) {
 
             $rootScope.map.setClickable(false);
             $scope.popover.show($event);
         };
 
-        $scope.close_lines = function () {
+        $scope.closeLines = function () {
 
             $scope.popover.hide();
         };
 
-        $scope.open_stop = function(stopPoint) {
+        $scope.selectStop = function(stopPoint) {
+
+            console.log(stopPoint);
+        };
+
+        $scope.openStop = function(stopPoint) {
 
             $rootScope.stop = stopPoint;
             location.href = "#/app/stop";
         };
 
-        $scope.change_dir = function () {
+        $scope.changeDir = function () {
 
-            if ($scope.dir == 1) {
-                $scope.dir = 0;
+            if (dir == 1) {
+                dir = 0;
             } else {
-                $scope.dir = 1;
+                dir = 1;
             }
 
             loadLine();
@@ -55,7 +62,7 @@
         // Lines list items
         $scope.selectLine = function (line) {
 
-            $scope.close_lines();
+            $scope.closeLines();
             $scope.line = line;
             loadLine();
         };
@@ -73,7 +80,7 @@
                 for (var index = 0; index < routes.body.length; index++) {
 
                     if (routes.body[index].journeys.length
-                        > maxL && routes.body[index].journeys[0].directionId == $scope.dir) {
+                        > maxL && routes.body[index].journeys[0].directionId == dir) {
 
                         route = routes.body[index];
                         maxL = route.journeys.length;
@@ -143,12 +150,12 @@
 
             // Stops
             $scope.$apply(function () {
-                $scope.stops.stopPoints = pattern.body[0].stopPoints;
+                $scope.stops = pattern.body[0].stopPoints;
             });
 
-            for (var stopI = 0; stopI < $scope.stops.stopPoints.length; stopI++) {
+            for (var stopI = 0; stopI < $scope.stops.length; stopI++) {
 
-                var position = $scope.stops.stopPoints[stopI].location.split(",");
+                var position = $scope.stops[stopI].location.split(",");
                 if (stopI == selected_stop) {
                     Map.drawSelectedStop(new plugin.google.maps.LatLng(
                         position[0], position[1]));
