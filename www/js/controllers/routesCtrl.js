@@ -11,11 +11,11 @@
             if (mapOpen) {
                 mapOpen = false;
                 document.getElementById("map_canvas2").style.height="30%";
-                //document.getElementById("stops").style.top="37%";
+                document.getElementById("times").style.top="37%";
             } else {
                 mapOpen = true;
                 document.getElementById("map_canvas2").style.height="100%";
-                //document.getElementById("stops").style.top="100%";
+                document.getElementById("times").style.top="100%";
             }
         };
 
