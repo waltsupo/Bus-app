@@ -117,6 +117,7 @@
 
         var drawMap = function() {
 
+            $rootScope.map.clear();
             // Line
             // Change string of coordinates to array of coordinates
             var lineCoords = [];
@@ -174,7 +175,12 @@
                 $rootScope.map.setDiv(div);
             } else {
                 $rootScope.map = window.plugin.google.maps.Map.getMap(div);
+                $rootScope.map.onClick = function(latLng) {};
             }
+
+            $rootScope.map.on(plugin.google.maps.event.MAP_CLICK, function(latLng) {
+                $rootScope.map.onClick(latLng);
+            });
 
             $rootScope.map.animateCamera({
                 target: {lat: 61.498753, lng: 23.776895},
@@ -195,6 +201,9 @@
             $scope.$on("$ionicView.enter", function(event, data) {
 
                 $rootScope.map.setDiv(document.getElementById("map_canvas"));
+                $rootScope.map.clear();
+
+                $rootScope.map.onClick = function(latLng) {};
 
                 if ($scope.route) {
                     drawMap();
@@ -217,6 +226,7 @@
                         }
                     }
                 }
+
                 $scope.selectLine($scope.lines[0]);
 
             }, function () {

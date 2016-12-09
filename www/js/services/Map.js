@@ -37,7 +37,51 @@
                 'width': 5,
                 'geodesic': true
             });
-        }
+        };
+
+        this.drawWalkLine = function (points) {
+
+            $rootScope.map.addPolyline({
+                points: points,
+                'color': '#000000',
+                'width': 5,
+                'geodesic': true
+            });
+        };
+
+        this.drawStartPoint = function(point) {
+
+            return new Promise(function(resolve, reject) {
+
+                $rootScope.map.addCircle({
+                    'center': point,
+                    'radius': 25,
+                    'strokeColor': '#000000',
+                    'strokeWidth': 5,
+                    'fillColor': '#000000',
+                    'zIndex': '5'
+                }, function(circle) {
+                    resolve(circle);
+                });
+            });
+        };
+
+        this.drawEndPoint = function(point) {
+
+            return new Promise(function(resolve, reject) {
+
+                return $rootScope.map.addCircle({
+                    'center': point,
+                    'radius': 25,
+                    'strokeColor': '#005500',
+                    'strokeWidth': 5,
+                    'fillColor': '#005500',
+                    'zIndex': '5'
+                }, function(circle) {
+                    resolve(circle);
+                });
+            });
+        };
     });
 
 })();

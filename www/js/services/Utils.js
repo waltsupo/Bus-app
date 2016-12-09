@@ -18,6 +18,20 @@
                 });
             });
         };
+
+        this.getResponseArray = function (url) {
+
+            return new Promise(function(resolve, reject) {
+
+                var resource = $resource(url);
+
+                resource.query({}, function (res) {
+                    resolve(res);
+                }, function () {
+                    reject();
+                });
+            });
+        };
     });
 
 })();
