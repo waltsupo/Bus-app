@@ -7,7 +7,8 @@
         var openMenu = 0;
         var journeys = null;
 
-        $scope.name = $rootScope.stop.name + " (" + $rootScope.stop.shortName + ")";
+        $scope.name =
+            $rootScope.stop.name + " (" + $rootScope.stop.shortName + ")";
 
         // Load arrive times
         Utils.getResponse(
@@ -32,6 +33,7 @@
             openMenu = number;
         };
 
+        // Get stop times and remove duplicates
         var sortJourneys = function() {
 
             var sortedJourneys = {monfri : [], sat : [], sun : []};

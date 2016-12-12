@@ -2,16 +2,18 @@
 
     var app = angular.module('Bus-app');
 
+    // Controller for Routes (Reittihaku)-view
     app.controller('routesCtrl', function ($scope, $rootScope, Paths, Map) {
 
         $scope.mapOpen = false;
-
         $scope.paths = null;
+
         var pathsData = null;
         var state = 0;
         var start = null;
         var end = null;
 
+        // Open map full screen
         $scope.openMap = function() {
 
             if ($scope.mapOpen) {
@@ -25,6 +27,7 @@
             }
         };
 
+        // When view entered
         $scope.$on("$ionicView.enter", function(event, data) {
 
             $rootScope.map.setDiv(document.getElementById("map_canvas2"));
@@ -37,19 +40,24 @@
             getPath();
         });
 
+        // Select path
         $scope.selectPath = function(ID) {
 
             drawPath(pathsData[ID][0]);
         };
 
+        // Get paths between start and end
         var getPath = function() {
 
             if (!start || !end) {
                 return;
             }
 
-            Paths.getPath(start.getCenter(), end.getCenter()).then(function(data) {
+            Paths.getPath(
+                start.getCenter(), end.getCenter()).then(function(data) {
+
                 $scope.$apply(function() {
+
                     pathsData = data;
                     var paths = [];
 
@@ -60,12 +68,18 @@
                         var path = {};
 
                         path.id = pathI;
-                        path.start = pathObj.legs[0].locs[0].arrTime.slice(8);
-                        path.start = path.start.slice(0,2) + ":" + path.start.slice(2);
+                        path.start =
+                            pathObj.legs[0].locs[0].arrTime.slice(8);
+                        path.start =
+                            path.start.slice(0,2) + ":" + path.start.slice(2);
 
-                        var lastLocations = pathObj.legs[pathObj.legs.length-1].locs;
-                        path.end = lastLocations[lastLocations.length - 1].arrTime.slice(8);
-                        path.end = path.end.slice(0,2) + ":" + path.end.slice(2);
+                        var lastLocations =
+                            pathObj.legs[pathObj.legs.length-1].locs;
+                        path.end =
+                            lastLocations[lastLocations.length - 1]
+                                .arrTime.slice(8);
+                        path.end =
+                            path.end.slice(0,2) + ":" + path.end.slice(2);
 
                         path.legs = [];
 
@@ -74,13 +88,20 @@
                             var leg = {};
 
                             if (pathObj.legs[legI].type == "walk") {
-                                leg.description = "Kävelyä    " + pathObj.legs[legI].length + "m";
+                                leg.description = "Kävelyä "
+                                    + pathObj.legs[legI].length + "m";
                             } else {
-                                var dep = pathObj.legs[legI].locs[0].depTime.slice(8);
+                                var dep =
+                                    pathObj.legs[legI].locs[0].depTime.slice(8);
                                 dep = dep.slice(0,2) + ":" + dep.slice(2);
-                                var arr = pathObj.legs[legI].locs[pathObj.legs[legI].locs.length-1].arrTime.slice(8);
+                                var arr =
+                                    pathObj.legs[legI].locs[pathObj.legs[legI]
+                                        .locs.length-1].arrTime.slice(8);
                                 arr = arr.slice(0,2) + ":" + arr.slice(2);
-                                leg.description = "Linja-auto("+ pathObj.legs[legI].code + ")    " + dep + " | " + arr;
+                                leg.description =
+                                    "Linja-auto("
+                                    + pathObj.legs[legI].code + ") " + dep
+                                    + " | " + arr;
                             }
 
                             path.legs.push(leg);
@@ -91,6 +112,8 @@
 
                     $scope.paths = paths;
                 });
+
+                // Draw first path to map
                 drawPath(data[0][0]);
 
             }, function() {
@@ -98,6 +121,7 @@
             });
         };
 
+        // Draw given path to map
         var drawPath = function(path) {
 
             $rootScope.map.clear();
@@ -125,11 +149,13 @@
             Map.drawEndPoint(end.getCenter());
         };
 
+        // Change if touch will set start point or end point
         $scope.changeState = function(newState) {
 
             state = newState;
         };
 
+        // On touch function
         var onClick = function(latLng) {
 
             if(state == 0) {

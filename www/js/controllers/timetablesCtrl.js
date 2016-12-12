@@ -2,11 +2,14 @@
 
     var app = angular.module('Bus-app');
 
-    app.controller('timetablesCtrl', function ($rootScope, $scope, $ionicPopover, $ionicSideMenuDelegate,
-                                               Lines, Routes, Utils, Map) {
+    app.controller('timetablesCtrl', function ($rootScope, $scope,
+                                               $ionicPopover,
+                                               $ionicSideMenuDelegate, Lines,
+                                               Routes, Utils, Map) {
 
         // Hide menu
         $rootScope.hideLeft = true;
+        $ionicSideMenuDelegate.canDragContent(false);
 
         $scope.stops = [];
         $scope.line = null;
@@ -79,15 +82,16 @@
 
                 for (var index = 0; index < routes.body.length; index++) {
 
-                    if (routes.body[index].journeys.length
-                        > maxL && routes.body[index].journeys[0].directionId == dir) {
+                    if (routes.body[index].journeys.length > maxL
+                        && routes.body[index].journeys[0].directionId == dir) {
 
                         route = routes.body[index];
                         maxL = route.journeys.length;
                     }
                 }
 
-                $scope.$apply(function() {$scope.route = route;$rootScope.route = route});
+                $scope.$apply(function() {$scope.route = route;
+                    $rootScope.route = route});
 
                 // Get stop points and draw those and the line to the map
                 Utils.getResponse(route.journeyPatterns[0].url).then(
@@ -178,7 +182,9 @@
                 $rootScope.map.onClick = function(latLng) {};
             }
 
-            $rootScope.map.on(plugin.google.maps.event.MAP_CLICK, function(latLng) {
+            $rootScope.map.on(plugin.google.maps.event.MAP_CLICK,
+                function(latLng) {
+
                 $rootScope.map.onClick(latLng);
             });
 
@@ -211,7 +217,10 @@
             });
 
             Lines.getLines().then(function(data) {
-                var notactive = ["2S", "13", "4YY", "13R", "13L", "14U", "24", "28",
+
+                // Not active lines
+                var notactive =
+                    ["2S", "13", "4YY", "13R", "13L", "14U", "24", "28",
                     "35R", "36T", "36", "40T", "40K", "45P", "45SP",
                     "45SS", "47", "47L", "47H", "50K", "51", "52",
                     "52I", "53T", "53", "54", "65z", "71T", "71M",
