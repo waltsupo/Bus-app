@@ -1,10 +1,10 @@
-<style>.popover {width:60px;}</style>
+<style>.popover {width:70px;}</style>
 
 <ion-popover-view>
   <ion-content>
     <ul class="list">
-      <li class="item" ng-click="selectLine(25)">25</li>
-      <li class="item" ng-click="selectLine(29)">29</li>
+      <li class="item" ng-repeat="li in lines"
+          ng-click="selectLine(li)">{{li.name}}</li>
     </ul>
   </ion-content>
 </ion-popover-view>

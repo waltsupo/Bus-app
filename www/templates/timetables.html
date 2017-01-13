@@ -1,0 +1,34 @@
+<ion-view view-title="Aikataulut">
+  <div style="width:100%;height:30%;
+  position:absolute;top:7%;border-bottom: 2px solid black" id="map_canvas">
+    <div>
+      <a style="left:80%" class="button button-icon icon ion-map"
+         ng-click="openMap()"></a>
+    </div>
+  </div>
+  <ion-content id="stops" style="top:37%;">
+    <div class="row">
+      <div class="col col-60">
+        <h1 style="text-align:center;" ng-bind="route.name"></h1>
+      </div>
+      <div class="col col-20">
+        <div ng-click="changeDir()">
+          <a class="button button-icon icon ion-android-sync"></a>
+        </div>
+      </div>
+      <div class="col">
+        <button ng-click="openLines($event)"
+                style="width: 60px; height: 60px;" ng-bind="line.name">
+        </button>
+      </div>
+    </div>
+    <div class="item row" ng-repeat="stopPoint in stops"
+         ng-click="selectStop(stopPoint)">
+      <div class="col col-75">
+        <div ng-bind="stopPoint.name"></div>
+      </div>
+      <a class="col button button-icon icon ion-ios-list-outline"
+         ng-click="openStop(stopPoint)"></a>
+    </div>
+  </ion-content>
+</ion-view>

@@ -1,0 +1,51 @@
+<ion-view view-title="{{name}}">
+    <ion-content>
+        <div class="row" style="top:60px">
+            <div class="col col-33" style="padding:0">
+                <button style="width: 100%; height: 60px;" ng-click="openMenu(0)">
+                    Ma - Pe
+                </button>
+            </div>
+            <div class="col col-34" style="padding:0">
+                <button style="width: 100%; height: 60px;" ng-click="openMenu(1)">
+                    La
+                </button>
+            </div>
+            <div class="col" style="padding:0">
+                <button style="width: 100%; height: 60px;" ng-click="openMenu(2)">
+                    Su
+                </button>
+            </div>
+        </div>
+        <div ng-show="isOpen(0)">
+            <ul class="list">
+                <div class="item row" ng-repeat="hour in times.monfri">
+                    <div class="col col-offset-5 col-10"
+                         ng-bind="hour[0]"></div>
+                    <div class="col col-10"></div>
+                    <p class="col" ng-repeat="min in hour[1]" ng-bind="min"></p>
+                </div>
+            </ul>
+        </div>
+        <div ng-show="isOpen(1)">
+            <ul class="list">
+                <div class="item row" ng-repeat="hour in times.sat">
+                    <div class="col col-offset-5 col-10"
+                         ng-bind="hour[0]"></div>
+                    <div class="col col-10"></div>
+                    <p class="col" ng-repeat="min in hour[1]" ng-bind="min"></p>
+                </div>
+            </ul>
+        </div>
+        <div ng-show="isOpen(2)">
+            <ul class="list">
+                <div class="item row" ng-repeat="hour in times.sun">
+                    <div class="col col-offset-5 col-10"
+                         ng-bind="hour[0]"></div>
+                    <div class="col col-10"></div>
+                    <p class="col" ng-repeat="min in hour[1]" ng-bind="min"></p>
+                </div>
+            </ul>
+        </div>
+    </ion-content>
+</ion-view>
